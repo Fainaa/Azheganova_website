@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кофейные рецепты</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script src="recipes.js"></script>
+    <script src="menu.js"></script>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo-link">
+                <div class="logo">
+                    <div class="steam"></div>
+                    <div class="steam"></div>
+                    <div class="steam"></div>
+                    <div class="cup"></div>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="recipes.html" class="nav-link active">Кофейные рецепты</a>
+                <a href="task2.html" class="nav-link">Задание 2</a>
+                <a href="task3.html" class="nav-link">Задание 3</a>
+                <a href="task4.html" class="nav-link">Задание 4</a>
+                <a href="task5.html" class="nav-link">Задание 5</a>
+            </nav>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="mobile-nav">
+                <a href="recipes.html" class="nav-link active">Кофейные рецепты</a>
+                <a href="task2.html" class="nav-link">Задание 2</a>
+                <a href="task3.html" class="nav-link">Задание 3</a>
+                <a href="task4.html" class="nav-link">Задание 4</a>
+                <a href="task5.html" class="nav-link">Задание 5</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Кофейные рецепты</h1>
+
+            <div class="filters-section">
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Все</button>
+                    <button class="filter-btn" data-filter="hot">Горячие</button>
+                    <button class="filter-btn" data-filter="cold">Холодные</button>
+                </div>
+            </div>
+
+            <div class="recipes-grid">
+                <article class="recipe-card" data-category="hot">
+                    <div class="recipe-header">
+                        <h2>Флэт Уайт</h2>
+                        <span class="difficulty medium">Сложность: средняя</span>
+                    </div>
+                        
+                    <div class="recipe-content">
+                        <div class="ingredients-section">
+                            <h3>Ингредиенты:</h3>
+                            <ul class="ingredients-list">
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Эспрессо</span>
+                                    <span class="ingredient-style">60 мл</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Молоко</span>
+                                    <span class="ingredient-style">120 мл</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Сахар/сироп</span>
+                                    <span class="ingredient-style">по вкусу</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="preparation-section">
+                            <h3>Приготовление:</h3>
+                            <ol class="preparation-steps">
+                                <li class="step">Приготовьте двойной эспрессо в предварительно прогретую чашку</li>
+                                <li class="step">Взбейте молоко до температуры 60-65°C, создавая мелкопористую пенку</li>
+                                <li class="step">Аккуратно влейте молоко в центр чашки, держа питчер высоко</li>
+                                <li class="step">В конце опустите питчер ближе к поверхности для создания белого круга</li>
+                                <li class="step">Подавайте немедленно</li>
+                            </ol>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="recipe-card" data-category="hot">
+                    <div class="recipe-header">
+                        <h2>Ванильный Раф</h2>
+                        <span class="difficulty easy">Сложность: низкая</span>
+                    </div>
+                        
+                    <div class="recipe-content">
+                        <div class="ingredients-section">
+                            <h3>Ингредиенты:</h3>
+                            <ul class="ingredients-list">
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Эспрессо</span>
+                                    <span class="ingredient-style">30 мл</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Сливки 10%</span>
+                                    <span class="ingredient-style">100 мл</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Ванильный сахар</span>
+                                    <span class="ingredient-style">5 г</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="preparation-section">
+                            <h3>Приготовление:</h3>
+                            <ol class="preparation-steps">
+                                <li class="step">В прогретый керамический стакан налейте карамельный сироп</li>
+                                <li class="step">Добавьте свежеприготовленный эспрессо</li>
+                                <li class="step">Подогрейте сливки с ванильным сахаром до 65°C</li>
+                                <li class="step">Взбейте сливки в питчере до легкой пенки</li>
+                                <li class="step">Перелейте смесь в стакан с кофе и сиропом</li>
+                            </ol>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="recipe-card" data-category="cold">
+                    <div class="recipe-header">
+                        <h2>Cold Brew</h2>
+                        <span class="difficulty hard">Сложность: высокая</span>
+                    </div>
+                        
+                    <div class="recipe-content">
+                        <div class="ingredients-section">
+                            <h3>Ингредиенты:</h3>
+                            <ul class="ingredients-list">
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Кофе грубого помола</span>
+                                    <span class="ingredient-style">100 г</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Холодная вода</span>
+                                    <span class="ingredient-style">500 мл</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Лед</span>
+                                    <span class="ingredient-style">по необходимости</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Апельсиновая цедра</span>
+                                    <span class="ingredient-style">для подачи</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="preparation-section">
+                            <h3>Приготовление:</h3>
+                            <ol class="preparation-steps">
+                                <li class="step">Засыпьте молотый кофе в стеклянную банку или френч-пресс</li>
+                                <li class="step">Залейте холодной фильтрованной водой, перемешайте</li>
+                                <li class="step">Накройте крышкой и оставьте при комнатной температуре на 12-16 часов</li>
+                                <li class="step">Профильтруйте через бумажный фильтр или сито</li>
+                                <li class="step">Подавайте со льдом, украсив цедрой апельсина</li>
+                            </ol>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="recipe-card" data-category="cold">
+                    <div class="recipe-header">
+                        <h2>Айс Латте</h2>
+                        <span class="difficulty easy">Сложность: низкая</span>
+                    </div>
+                        
+                    <div class="recipe-content">
+                        <div class="ingredients-section">
+                            <h3>Ингредиенты:</h3>
+                            <ul class="ingredients-list">
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Эспрессо</span>
+                                    <span class="ingredient-style">60 мл</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Молоко</span>
+                                    <span class="ingredient-style">200 мл</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Ванильный сироп</span>
+                                    <span class="ingredient-style">25 мл</span>
+                                </li>
+                                <li class="ingredient-item">
+                                    <span class="ingredient-style">Лед</span>
+                                    <span class="ingredient-style">1 стакан</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="preparation-section">
+                            <h3>Приготовление:</h3>
+                            <ol class="preparation-steps">
+                                <li class="step">Приготовьте эспрессо</li>
+                                <li class="step">Наполните высокий стакан льдом доверху</li>
+                                <li class="step">Добавьте ванильный сироп в стакан со льдом</li>
+                                <li class="step">Медленно влейте охлажденное молоко</li>
+                                <li class="step">Аккуратно добавьте эспрессо, создавая мраморный эффект</li>
+                            </ol>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-email">
+                <a href="mailto:coffe.lab@gmail.com" class="footer-email">Напишите нам </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
