@@ -9,7 +9,6 @@ document.querySelectorAll('.draggable').forEach(el => {
     offset.x = e.clientX - el.offsetLeft - rect.left;
     offset.y = e.clientY - el.offsetTop - rect.top;
     el.style.zIndex = 100;
-    el.classList.add('active');
   };
 });
 
@@ -28,7 +27,6 @@ document.onmousemove = function(e) {
 
 document.onmouseup = function() {
   if (active) {
-    active.classList.remove('active');
     active.style.zIndex = '';
     active = null;
   }
