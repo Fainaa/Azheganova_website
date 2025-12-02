@@ -24,7 +24,6 @@
 .ware2 {
   position: relative;
   z-index: 1;
-  pointer-events: auto;
 }
 
 .ware3 {
@@ -94,26 +93,26 @@
 
 .text {
   position: absolute;
-  left: 55px;
-  bottom: 35px;
+  left: -55px;
+  top: 100px;
   color: #D40000;
   font-size: 12px;
   font-weight: bold;
   opacity: 0;
   z-index: 10;
-  transform: rotate(-90deg) translateX(50px) translateY(-110px);
+  transform: rotate(-90deg);
 }
 
 .flex-item:hover .shop-name {
   opacity: 1;
 }
 
-.flex-item:active .text {
-  opacity: 1;
-}
-
 .flex-item:active .shop-name {
   opacity: 0;
+}
+
+.flex-item:active .text {
+  opacity: 1;
 }
 
 .flex-item:active {
