@@ -70,6 +70,39 @@
     z-index: 1;
 }
 
+.mushroom.another {
+    bottom: 38px;
+    left: 100px;
+    width: 90px; 
+    height: 80px;
+    z-index: 1;
+}
+
+.mushroom.another::before {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 40px;                 
+    width: 30px;     
+    height: 80px;             
+    background: #D3CCCA;
+    border-radius: 50% / 50%;  
+    border: 2px solid #56191A;
+    z-index: 1;
+}
+
+.mushroom.another::after {
+    content: '';
+    position: absolute;
+    top: 0; 
+    left: 10px;
+    width: 90px; 
+    height: 45px;
+    background: radial-gradient(circle at 60px 10px, #D2C6C5 1%, #56191A 100%);
+    border-radius: 50px 55px 0 0 / 41px 41px 0 0;
+    z-index: 1;
+}
+
 
 .mushroom.small {
     left: 55px;
