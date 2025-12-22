@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Что такое слово - Заставка</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <h1 class="title">Что такое слово</h1>
+        <p class="subtitle">Образовательная игра на классификацию слов</p>
+        
+        <div class="start-form">
+            <input type="text" id="player-name" class="name-input" placeholder="Введите ваше имя" required>
+            <button id="start-btn" class="btn btn-primary">Начать игру</button>
+        </div>
+        
+        <div class="menu-buttons">
+            <button id="rating-btn" class="btn btn-secondary">Рейтинг</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>Как играть:</h3>
+            <ul>
+                <li>Введите имя и нажмите "Начать игру"</li>
+                <li>Выберите уровень сложности</li>
+                <li>Выполняйте задания на время</li>
+                <li>Набирайте очки</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="game-core.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

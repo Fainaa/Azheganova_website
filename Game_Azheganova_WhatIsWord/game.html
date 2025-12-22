@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра - Что такое слово</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="game-header">
+            Игрок: <span id="player-name-display"></span><br>
+            Уровень: <span id="current-level">1</span><br>
+            Очки: <span id="current-score">0</span><br>
+            Время: <span id="timer">00:00</span>
+        </div>
+        
+        <div class="game-area" id="game-area"></div>
+        
+        <div class="game-controls">
+            <button id="quit-btn" class="btn btn-secondary">Выйти к выбору уровня</button>
+        </div>
+    </div>
+    
+    <script src="game-core.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

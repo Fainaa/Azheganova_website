@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор уровня - Что такое слово</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <h1 class="title">Выбор уровня</h1>
+        
+        <div id="player-info"></div>
+        
+        <div class="levels-container" id="levels-container"></div>
+
+        <div class="marathon-container">
+            <div class="marathon-card">
+                <div class="marathon-header">
+                    <div class="marathon-content">
+                        <h3>МАРАФОН</h3>
+                        <p class="marathon-description">Пройдите все 3 уровня подряд с накоплением очков</p>
+                    </div>
+                </div>
+                
+                <button id="start-marathon" class="marathon-btn">Начать марафон</button>
+            </div>
+        </div>
+        
+        <div class="menu-buttons">
+            <button id="back-btn" class="btn btn-secondary">Назад к вводу имени</button>
+        </div>
+    </div>
+    
+    <script src="game-core.js"></script>
+    <script src="level-select.js"></script>
+</body>
+</html>
