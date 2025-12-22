@@ -195,9 +195,9 @@ function startGame(playerName, level) {
                 const buttons = Utils.createElement('div', 'result-buttons');
                 buttons.style.marginTop = '40px';
                 
-                const levelsBtn = Utils.createElement('button', ['btn', 'btn-primary'], '🏆 В рейтинг');
-                levelsBtn.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-                levelsBtn.style.color = '#333';
+                const levelsBtn = Utils.createElement('button', ['btn', 'btn-primary'], 'В рейтинг');
+                levelsBtn.style.background = '#FFA500';
+                levelsBtn.style.color = '#333333';
                 levelsBtn.style.fontWeight = 'bold';
                 levelsBtn.addEventListener('click', function() {
                     window.location.href = `rating.html`;
@@ -766,6 +766,7 @@ function startGame(playerName, level) {
         });
         
         letterElement.classList.add('selected');
+        window.selectedLetter = letterElement;
     }
     
     function setupLevel2Controls() {
@@ -795,7 +796,7 @@ function startGame(playerName, level) {
             case 'ArrowLeft':
                 e.preventDefault();
                 if (currentIndex === -1) 
-                    currentIndex = letters.length;
+                    currentIndex = letters.length - 1;
                 const prevIndex = (currentIndex - 1 + letters.length) % letters.length;
                 selectLetter(letters[prevIndex]);
                 break;
@@ -803,7 +804,7 @@ function startGame(playerName, level) {
             case 'ArrowRight':
                 e.preventDefault();
                 if (currentIndex === -1) 
-                    currentIndex = -1;
+                    currentIndex = 0;
                 const nextIndex = (currentIndex + 1) % letters.length;
                 selectLetter(letters[nextIndex]);
                 break;
