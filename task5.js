@@ -185,6 +185,7 @@ function initDragging() {
       offset.x = e.clientX - el.offsetLeft - rect.left;
       offset.y = e.clientY - el.offsetTop - rect.top;
       el.style.zIndex = 100;
+      el.style.border = '4px solid #000000';
     };
   });
 

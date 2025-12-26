@@ -5,6 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const playerInfo = document.getElementById('player-info');
     const levelsContainer = document.getElementById('levels-container');
     const backBtn = document.getElementById('back-btn');
+    const settingsBtn = Utils.createElement('button', 'theme-settings-btn', '🎨');
+    settingsBtn.title = 'Настройки темы';
+    settingsBtn.addEventListener('click', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const playerName = urlParams.get('player');
+        window.location.href = `settings.html?player=${encodeURIComponent(playerName)}`;
+    });
+    document.body.appendChild(settingsBtn);
 
     playerInfo.innerHTML = `
         <div class="player-welcome">
@@ -33,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const levelCard = document.createElement('div');
             levelCard.className = 'level-card';
 
-            const colors = ['#3498db', '#2ecc71', '#9b59b6'];
+            const colors = ColorThemes.getLevelColors();
 
             levelCard.innerHTML = `
                 <div class="level-card-header" style="background: ${colors[levelNum - 1]};">

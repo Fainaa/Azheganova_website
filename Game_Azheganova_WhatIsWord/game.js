@@ -24,6 +24,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function startGame(playerName, level) {
+    const settingsBtn = Utils.createElement('button', 'theme-settings-btn', '🎨');
+    settingsBtn.title = 'Настройки темы';
+    settingsBtn.addEventListener('click', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const playerName = urlParams.get('player');
+        const level = urlParams.get('level');
+        
+        if (confirm('Перейти в настройки? Текущий прогресс уровня будет сохранен.')) {
+            window.location.href = `settings.html?player=${encodeURIComponent(playerName)}&level=${level}`;
+        }
+    });
+    document.body.appendChild(settingsBtn);
     const urlParams = new URLSearchParams(window.location.search);
     const accumulatedScore = parseInt(urlParams.get('score')) || 0;
 
@@ -183,6 +195,21 @@ function startGame(playerName, level) {
         
         if (success) {
             const isMarathonFinish = (marathonMode && level === 3);
+            resultScreen.classList.add('shaking');
+        
+            setTimeout(() => {
+                resultScreen.classList.remove('shaking');
+            }, 1000);
+        
+            setTimeout(() => {
+                const scoreDisplay = resultScreen.querySelector('.result-score');
+                if (scoreDisplay) {
+                    scoreDisplay.classList.add('score-celebration');
+                    setTimeout(() => {
+                        scoreDisplay.classList.remove('score-celebration');
+                    }, 800);
+                }
+            }, 300);
             
             if (isMarathonFinish) {
                 resultScreen.innerHTML = `
@@ -336,30 +363,55 @@ function startGame(playerName, level) {
         const wordsContainer = document.getElementById('words-container');
         const shuffledWords = Utils.shuffleArray([...words]);
         
-        shuffledWords.forEach((word, index) => {
-            setTimeout(() => {
-                const wordElement = Utils.createElement('div', 'draggable-word', word);
-                wordElement.draggable = true;
-                wordElement.dataset.word = word;
-                
-                wordElement.addEventListener('dragstart', handleDragStart);
-                wordElement.addEventListener('dragend', handleDragEnd);
-                
-                wordElement.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.05)';
-                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-                });
-                
-                wordElement.addEventListener('mouseleave', function() {
-                    if (!this.dragging) {
-                        this.style.transform = '';
-                        this.style.boxShadow = '';
-                    }
-                });
-                
-                wordsContainer.appendChild(wordElement);
-            }, index * 100);
+        Utils.clearElement(wordsContainer);
+
+        const wordElements = shuffledWords.map((word, index) => {
+            const wordElement = Utils.createElement('div', 'draggable-word', word);
+            wordElement.dataset.word = word;
+            wordElement.draggable = true;
+            wordElement.style.opacity = '0';
+            wordElement.style.transform = 'translateY(-100px)';
+            wordElement.style.transition = 'all 0.5s ease';
+            
+            wordsContainer.appendChild(wordElement);
+            return wordElement;
         });
+        
+        setTimeout(() => {
+            wordElements.forEach((wordElement, index) => {
+                setTimeout(() => {
+                    wordElement.style.opacity = '1';
+                    wordElement.style.transform = 'translateY(0)';
+                
+                    setTimeout(() => {
+                        wordElement.style.transition = 'all 0.3s ease';
+                        wordElement.style.transform = 'translateY(-10px)';
+                        
+                        setTimeout(() => {
+                            wordElement.style.transform = 'translateY(0)';
+                        }, 150);
+                    }, 500);
+                    
+                    wordElement.addEventListener('dragstart', handleDragStart);
+                    wordElement.addEventListener('dragend', handleDragEnd);
+                    
+                    wordElement.addEventListener('mouseenter', function() {
+                        if (!this.dragging) {
+                            this.style.transform = 'scale(1.05)';
+                            this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+                        }
+                    });
+                    
+                    wordElement.addEventListener('mouseleave', function() {
+                        if (!this.dragging) {
+                            this.style.transform = '';
+                            this.style.boxShadow = '';
+                        }
+                    });
+                    
+                }, index * 150);
+            });
+        }, 100);
     }
     
     function createCategories(categories) {
@@ -401,17 +453,44 @@ function startGame(playerName, level) {
         this.dragging = true;
         e.dataTransfer.setData('text/plain', this.dataset.word);
         e.dataTransfer.effectAllowed = 'move';
+        
+        this.classList.add('dragging');
+        
+        this.style.transform = 'scale(1.1) translateY(-5px) rotate(2deg)';
+        this.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
+        this.style.zIndex = '1000';
     }
     
+
+    function handleDragStart(e) {
+        draggedWord = this;
+        this.dragging = true;
+        e.dataTransfer.setData('text/plain', this.dataset.word);
+        e.dataTransfer.effectAllowed = 'move';
+        
+        this.classList.add('dragging');
+        
+        this.style.transform = 'scale(1.1) translateY(-5px) rotate(2deg)';
+        this.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
+        this.style.zIndex = '1000';
+    }
+
     function handleDragEnd(e) {
         this.dragging = false;
+        this.classList.remove('dragging');
+        
+        this.style.transition = 'all 0.3s ease';
         this.style.transform = '';
-        draggedWord = null;
-
+        this.style.boxShadow = '';
+        this.style.zIndex = '';
+        
         document.querySelectorAll('.category-box').forEach(cat => {
             cat.classList.remove('dragover');
             cat.style.backgroundColor = '';
+            cat.style.animation = '';
         });
+        
+        draggedWord = null;
     }
     
     function handleDragOver(e) {
@@ -440,61 +519,109 @@ function startGame(playerName, level) {
         const wordElement = document.querySelector(`.draggable-word[data-word="${word}"]`);
         
         if (wordElement && this.classList.contains('category-box')) {
-            const dropZone = this.querySelector('.drop-zone');
-            wordElement.remove();
-
-            const wordInCategory = Utils.createElement('div', 'word-in-category', word);
-            wordInCategory.dataset.word = word;
-            wordInCategory.dataset.category = this.dataset.category;
-
-            wordInCategory.style.animation = 'popIn 0.3s ease';
-
-            const removeBtn = Utils.createElement('span', 'remove-word', '×');
-            removeBtn.addEventListener('click', function() {
-                returnWordToContainer(word, wordInCategory);
-            });
+            wordElement.style.animation = 'wordToCategory 0.3s ease forwards';
             
-            wordInCategory.appendChild(removeBtn);
-            dropZone.appendChild(wordInCategory);
-            
-            updateCorrectAnswers(this.dataset.category, word, true);
+            setTimeout(() => {
+                wordElement.remove();
+
+                const dropZone = this.querySelector('.drop-zone');
+                
+                const wordInCategory = Utils.createElement('div', 'word-in-category', word);
+                wordInCategory.dataset.word = word;
+                wordInCategory.dataset.category = this.dataset.category;
+                
+                wordInCategory.style.opacity = '0';
+                wordInCategory.style.transform = 'scale(0.5)';
+                
+                const removeBtn = Utils.createElement('span', 'remove-word', '×');
+                removeBtn.addEventListener('click', function() {
+                    returnWordToContainer(word, wordInCategory);
+                });
+                
+                wordInCategory.appendChild(removeBtn);
+                dropZone.appendChild(wordInCategory);
+                
+                setTimeout(() => {
+                    wordInCategory.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                    wordInCategory.style.opacity = '1';
+                    wordInCategory.style.transform = 'scale(1)';
+
+                    wordInCategory.style.boxShadow = '0 0 15px rgba(46, 204, 113, 0.5)';
+                    setTimeout(() => {
+                        wordInCategory.style.boxShadow = '';
+                    }, 500);
+                }, 10);
+                
+                updateCorrectAnswers(this.dataset.category, word, true);
+                
+                this.style.animation = 'categoryPulse 0.5s ease';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 500);
+            }, 300);
         }
+        
         this.classList.remove('dragover');
         this.style.backgroundColor = '';
         this.style.transform = '';
         
         return false;
     }
-    
+
     function returnWordToContainer(word, wordElement) {
         const wordsContainer = document.getElementById('words-container');
-        wordElement.remove();
-
-        const newWordElement = Utils.createElement('div', 'draggable-word', word);
-        newWordElement.dataset.word = word;
-        newWordElement.draggable = true;
-
-        newWordElement.style.animation = 'popIn 0.3s ease';
-
-        newWordElement.addEventListener('dragstart', handleDragStart);
-        newWordElement.addEventListener('dragend', handleDragEnd);
-
-        newWordElement.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05)';
-            this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-        });
         
-        newWordElement.addEventListener('mouseleave', function() {
-            if (!this.dragging) {
-                this.style.transform = '';
-                this.style.boxShadow = '';
-            }
-        });
+        wordElement.style.animation = 'wordToCategory 0.3s ease reverse forwards';
         
-        wordsContainer.appendChild(newWordElement);
+        setTimeout(() => {
+            wordElement.remove();
 
-        const category = wordElement.dataset.category;
-        updateCorrectAnswers(category, word, false);
+            const newWordElement = Utils.createElement('div', 'draggable-word', word);
+            newWordElement.dataset.word = word;
+            newWordElement.draggable = true;
+
+            newWordElement.style.opacity = '0';
+            newWordElement.style.transform = 'scale(0.5) translateY(20px)';
+            
+            wordsContainer.appendChild(newWordElement);
+
+            setTimeout(() => {
+                newWordElement.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                newWordElement.style.opacity = '1';
+                newWordElement.style.transform = 'scale(1) translateY(0)';
+                
+                newWordElement.style.boxShadow = '0 0 15px rgba(52, 152, 219, 0.5)';
+                setTimeout(() => {
+                    newWordElement.style.boxShadow = '';
+                }, 500);
+            }, 10);
+
+            setTimeout(() => {
+                newWordElement.addEventListener('dragstart', handleDragStart);
+                newWordElement.addEventListener('dragend', handleDragEnd);
+                
+                newWordElement.addEventListener('mouseenter', function() {
+                    if (!this.isBeingDragged) {
+                        this.style.transform = 'scale(1.05) translateY(-3px)';
+                        this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+                        this.style.zIndex = '10';
+                    }
+                });
+                
+                newWordElement.addEventListener('mouseleave', function() {
+                    if (!this.isBeingDragged) {
+                        this.style.transform = 'scale(1) translateY(0)';
+                        this.style.boxShadow = '';
+                        this.style.zIndex = '';
+                    }
+                });
+                
+                newWordElement.isBeingDragged = false;
+            }, 500);
+
+            const category = wordElement.dataset.category;
+            updateCorrectAnswers(category, word, false);
+        }, 300);
     }
     
     function updateCorrectAnswers(category, word, added) {
@@ -708,12 +835,14 @@ function startGame(playerName, level) {
             letterElement.addEventListener('mouseenter', function() {
                 if (this.dataset.selected === 'false') {
                     this.style.transform = 'scale(1.1)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
                 }
             });
             
             letterElement.addEventListener('mouseleave', function() {
-                if (this.dataset.selected === 'false') {
+                if (!this.dragging) {
                     this.style.transform = '';
+                    this.style.boxShadow = '';
                 }
             });
 
@@ -721,12 +850,57 @@ function startGame(playerName, level) {
             letterElement.style.transition = 'all 0.3s ease';
             
             lettersContainer.appendChild(letterElement);
+            
+            const targetX = posX;
+            const targetY = posY;
+            
+            letterElement.style.opacity = '0';
+            letterElement.style.transform = 'translateY(-50px) scale(0.5)';
+
+            letterElement.style.left = `${targetX}px`;
+            letterElement.style.top = `${targetY - 50}px`; 
+            
+            setTimeout(() => {
+                const currentTransition = letterElement.style.transition;
+
+                letterElement.style.transition = 'all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                letterElement.style.opacity = '1';
+                letterElement.style.transform = 'translateY(0) scale(1)';
+                letterElement.style.left = `${targetX}px`;
+                letterElement.style.top = `${targetY}px`;
+                
+                setTimeout(() => {
+                    if (letterElement.dataset.selected === 'false' && letterElement.parentNode) {
+                        letterElement.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+                        
+                        letterElement.classList.add('floating-letter');
+                        
+                        const amplitude = 5 + Math.random() * 10;
+                        const speed = 2 + Math.random() * 2;
+                        const delay = Math.random() * 2;
+                        
+                        letterElement.style.animation = `
+                            float ${speed}s ease-in-out ${delay}s infinite alternate
+                        `;
+                        
+                        letterElement.dataset.floatAmplitude = amplitude;
+                        letterElement.dataset.floatSpeed = speed;
+                    }
+                }, 600);
+                
+            }, index * 150);
         });
     }
     
     function captureLetter(letterElement) {
         if (letterElement.dataset.selected === 'true') 
             return;
+
+        letterElement.style.animation = 'none';
+        letterElement.classList.remove('floating-letter');
+        
+        letterElement.style.transform = 'scale(1) translateY(0)';
+        letterElement.style.transition = 'all 0.3s ease';
 
         if (window.selectedLetter && window.selectedLetter !== letterElement) {
             releaseLetter(window.selectedLetter);
@@ -735,6 +909,9 @@ function startGame(playerName, level) {
         letterElement.dataset.selected = 'true';
         letterElement.classList.add('captured');
         letterElement.style.animation = 'captureLetter 0.5s ease';
+        
+        letterElement.style.transform = 'scale(1.3)';
+        letterElement.style.zIndex = '1000';
 
         window.selectedLetter = letterElement;
 
@@ -754,9 +931,25 @@ function startGame(playerName, level) {
         letterElement.classList.remove('captured');
         letterElement.style.animation = '';
         
+        letterElement.style.transform = 'scale(1)';
+        letterElement.style.zIndex = '';
+        letterElement.style.transition = 'all 0.5s ease';
+        
         if (window.selectedLetter === letterElement) {
             window.selectedLetter = null;
         }
+        
+        setTimeout(() => {
+            if (letterElement.dataset.selected === 'false' && letterElement.parentNode) {
+                const amplitude = letterElement.dataset.floatAmplitude || 8;
+                const speed = letterElement.dataset.floatSpeed || 3;
+                
+                letterElement.classList.add('floating-letter');
+                letterElement.style.animation = `
+                    float ${speed}s ease-in-out infinite alternate
+                `;
+            }
+        }, 500);
     }
     
     function selectLetter(letterElement) {

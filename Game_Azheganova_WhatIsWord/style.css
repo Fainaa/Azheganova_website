@@ -862,3 +862,323 @@ body {
 .marathon-btn:active {
     transform: scale(1);
 }
+
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.floating-letter {
+    will-change: transform;
+    transform-origin: center;
+}
+
+@keyframes captureLetter {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.4);
+    }
+    100% {
+        transform: scale(1.3);
+    }
+}
+
+.flying-letter.captured {
+    animation: captureLetter 0.5s ease forwards;
+}
+
+.flying-letter {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+}
+
+
+.draggable-word {
+    transition: all 0.3s ease;
+    will-change: transform, opacity;
+}
+
+
+@keyframes shake {
+    0%, 100% { 
+        transform: translateX(0); 
+    }
+    10%, 30%, 50%, 70%, 90% { 
+        transform: translateX(-2px); 
+    }
+    20%, 40%, 60%, 80% { 
+        transform: translateX(2px); 
+    }
+}
+
+.result-screen.shaking {
+    animation: shake 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+
+
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --accent-color: #e74c3c;
+    --background-color: #f5f7fa;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+}
+
+
+body {
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+.btn-primary {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.btn-secondary {
+    background: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+}
+
+.btn-warning {
+    background: var(--warning-color) !important;
+    border-color: var(--warning-color) !important;
+}
+
+.game-header {
+    background: var(--primary-color);
+    color: white;
+}
+
+.result-screen {
+    background: var(--card-bg);
+    border: 2px solid var(--primary-color);
+}
+
+.level-card-header {
+    background: var(--primary-color);
+    color: white;
+}
+
+.level-card {
+    background: var(--card-bg);
+    border: 1px solid var(--secondary-color);
+}
+
+.draggable-word {
+    background: var(--card-bg);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+}
+
+.category-box {
+    background: var(--card-bg);
+    border: 3px dashed var(--secondary-color);
+}
+
+.word-in-category {
+    background: rgba(var(--primary-color-rgb), 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+}
+
+.word-in-category.correct {
+    background: rgba(var(--success-color-rgb), 0.2) !important;
+    border-color: var(--success-color) !important;
+}
+
+.word-in-category.incorrect {
+    background: rgba(var(--danger-color-rgb), 0.2) !important;
+    border-color: var(--danger-color) !important;
+}
+
+.flying-letter {
+    background: var(--primary-color);
+    color: white;
+}
+
+.flying-letter.selected {
+    background: var(--secondary-color);
+}
+
+.letter-slot {
+    border: 3px solid var(--primary-color);
+    color: var(--text-color);
+}
+
+.letter-slot.correct {
+    border-color: var(--success-color) !important;
+    background: rgba(var(--success-color-rgb), 0.2) !important;
+}
+
+.letter-slot.incorrect {
+    border-color: var(--danger-color) !important;
+    background: rgba(var(--danger-color-rgb), 0.2) !important;
+}
+
+.level3-item {
+    background: var(--card-bg);
+    border: 2px solid var(--secondary-color);
+    color: var(--text-color);
+}
+
+.connection-number {
+    background: var(--accent-color);
+    color: white;
+}
+
+
+.theme-selector {
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 10px;
+}
+
+.theme-selector h4 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    justify-content: center;
+}
+
+.theme-btn {
+    padding: 10px !important;
+    border: 2px solid transparent !important;
+    transition: all 0.3s ease !important;
+    color: white !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    font-weight: bold;
+}
+
+.theme-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.theme-btn.active {
+    border-color: white !important;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.5);
+    position: relative;
+}
+
+.theme-btn.active::after {
+    content: '✓';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: white;
+    color: var(--primary-color);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.theme-settings-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+.theme-settings-btn:hover {
+    transform: scale(1.1) rotate(30deg);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.theme-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.theme-modal.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.theme-modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.theme-modal.visible .theme-modal-content {
+    transform: translateY(0);
+}
+
+.theme-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.close-theme-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.theme-transition * {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+
+

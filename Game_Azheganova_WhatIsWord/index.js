@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const playerNameInput = document.getElementById('player-name');
     const startBtn = document.getElementById('start-btn');
     const ratingBtn = document.getElementById('rating-btn');
+    const settingsBtn = Utils.createElement('button', 'theme-settings-btn', '🎨');
+    settingsBtn.title = 'Настройки темы';
+    settingsBtn.addEventListener('click', () => {
+        window.location.href = 'settings.html';
+    });
+    document.body.appendChild(settingsBtn);
 
     playerNameInput.value = '';
 

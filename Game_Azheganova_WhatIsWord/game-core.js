@@ -322,3 +322,201 @@ const Words = {
         }
     ] 
 };
+
+
+const ColorThemes = {
+    themes: {
+        classic: {
+            name: 'Основная',
+            primary: '#3498db',
+            secondary: '#2ecc71',
+            accent: '#e74c3c',
+            background: '#f5f7fa',
+            cardBg: '#ffffff',
+            text: '#2c3e50',
+            success: '#27ae60',
+            warning: '#f39c12',
+            danger: '#e74c3c',
+            levelColors: ['#3498db', '#2ecc71', '#9b59b6']
+        },
+        nature: {
+            name: 'Природа',
+            primary: '#27ae60',
+            secondary: '#16a085',
+            accent: '#f39c12',
+            background: '#ecf0f1',
+            cardBg: '#ffffff',
+            text: '#2c3e50',
+            success: '#27ae60',
+            warning: '#f39c12',
+            danger: '#e74c3c',
+            levelColors: ['#27ae60', '#16a085', '#f39c12']
+        },
+        sunset: {
+            name: 'Закат',
+            primary: '#e74c3c',
+            secondary: '#e67e22',
+            accent: '#f1c40f',
+            background: '#fef9e7',
+            cardBg: '#ffffff',
+            text: '#34495e',
+            success: '#27ae60',
+            warning: '#e67e22',
+            danger: '#e74c3c',
+            levelColors: ['#e74c3c', '#e67e22', '#f1c40f']
+        },
+        ocean: {
+            name: 'Океан',
+            primary: '#2980b9',
+            secondary: '#16a085',
+            accent: '#8e44ad',
+            background: '#e8f4f8',
+            cardBg: '#ffffff',
+            text: '#2c3e50',
+            success: '#27ae60',
+            warning: '#f39c12',
+            danger: '#e74c3c',
+            levelColors: ['#2980b9', '#16a085', '#4447adff']
+        },
+        retro: {
+            name: 'Ретро',
+            primary: '#d35400',
+            secondary: '#c0392b',
+            accent: '#8e44ad',
+            background: '#f7f1e3',
+            cardBg: '#ffffff',
+            text: '#2c3e50',
+            success: '#27ae60',
+            warning: '#d35400',
+            danger: '#c0392b',
+            levelColors: ['#d35400', '#c0392b', '#8e44ad']
+        },
+        berry: {
+            name: 'Ягодная',
+            primary: '#8e24aa',     
+            secondary: '#d81b60',   
+            accent: '#ff9800',      
+            background: '#f3e5f5',   
+            cardBg: '#ffffff',
+            text: '#4a148c',     
+            success: '#388e3c',
+            warning: '#ff9800',
+            danger: '#d32f2f',
+            levelColors: ['#8e24aa', '#d81b60', '#ff9800']
+        }
+    },
+    
+    currentTheme: 'classic',
+    
+    init() {
+        const savedTheme = localStorage.getItem('word_game_theme');
+        if (savedTheme && this.themes[savedTheme]) {
+            this.currentTheme = savedTheme;
+        }
+        this.applyTheme(this.currentTheme);
+    },
+
+    getLevelColors() {
+        const theme = this.themes[this.currentTheme] || this.themes.classic;
+        return theme.levelColors || ['#3498db', '#2ecc71', '#9b59b6'];
+    },
+    
+    getLevelColor(levelNum) {
+        const levelColors = this.getLevelColors();
+        return levelColors[levelNum - 1] || levelColors[0];
+    },
+    
+    applyTheme(themeName) {
+        const theme = this.themes[themeName] || this.themes.classic;
+        this.currentTheme = themeName;
+        
+        const root = document.documentElement;
+        root.style.setProperty('--primary-color', theme.primary);
+        root.style.setProperty('--secondary-color', theme.secondary);
+        root.style.setProperty('--accent-color', theme.accent);
+        root.style.setProperty('--background-color', theme.background);
+        root.style.setProperty('--card-bg', theme.cardBg);
+        root.style.setProperty('--text-color', theme.text);
+        root.style.setProperty('--success-color', theme.success);
+        root.style.setProperty('--warning-color', theme.warning);
+        root.style.setProperty('--danger-color', theme.danger);
+        
+        localStorage.setItem('word_game_theme', themeName);
+        
+        this.updateThemeButtons();
+        
+        return theme;
+    },
+    
+    getCurrentTheme() {
+        return this.themes[this.currentTheme];
+    },
+    
+    updateThemeButtons() {
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        const themeName = btn.dataset.theme;
+        
+        const theme = this.themes[themeName];
+        btn.textContent = theme.name;
+        
+        if (themeName === this.currentTheme) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+},
+    
+    createThemeSelector() {
+        const container = Utils.createElement('div', 'theme-selector');
+        container.innerHTML = '<h4>Выберите цветовую тему:</h4>';
+        
+        const grid = Utils.createElement('div', 'theme-grid');
+        
+        Object.keys(this.themes).forEach(themeKey => {
+            const theme = this.themes[themeKey];
+            const themeBtn = Utils.createElement('button', ['btn', 'theme-btn'], theme.name);
+            themeBtn.dataset.theme = themeKey;
+            
+            themeBtn.style.background = theme.primary;
+            themeBtn.style.color = '#ffffff';
+            themeBtn.style.border = `2px solid ${theme.secondary}`;
+            
+            themeBtn.addEventListener('click', () => {
+                this.applyTheme(themeKey);
+                this.showThemeAppliedNotification(theme.name);
+            });
+            
+            grid.appendChild(themeBtn);
+        });
+        
+        container.appendChild(grid);
+        this.updateThemeButtons();
+        
+        return container;
+    },
+    
+    showThemeAppliedNotification(themeName) {
+        const notification = Utils.createElement('div', 'theme-notification');
+        notification.textContent = `Тема "${themeName}" применена`;
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.right = '20px';
+        notification.style.background = 'var(--primary-color)';
+        notification.style.color = 'white';
+        notification.style.padding = '10px 20px';
+        notification.style.borderRadius = '5px';
+        notification.style.zIndex = '10000';
+        notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => notification.remove(), 500);
+        }, 2000);
+    }
+};
+
+ColorThemes.init();
